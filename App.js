@@ -13,11 +13,13 @@ import {
     Dimensions,
     TouchableOpacity,
     TextInput,
+    FlatList,
 } from 'react-native';
 import MapView from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
-// import RNGooglePlaces from 'react-native-google-places';
-// import RNGooglePlaces from 'react-native-google-places';
+import RNGooglePlaces from 'react-native-google-places';
+
+import PredictionItem from './components/PredictionItem';
 
 
 const {height, width} = Dimensions.get('window');
@@ -46,7 +48,7 @@ export default class App extends Component<Props> {
             place: {
                 name: 'No name yet',
             },
-            json:null,
+            predictions: null,
         }
 
     }
@@ -61,13 +63,20 @@ export default class App extends Component<Props> {
             .catch(error => console.log(error.message));  // error is a Javascript Error object
     }
 
+    autocompleteText = (text) => {
+        RNGooglePlaces.getAutocompletePredictions(text)
+            .then((results) => this.setState({predictions: results}))
+            .catch((error) => console.log(error.message));
+    }
+
+
     onRegionChange = (region) => {
         Geocoder.getFromLatLng(region.latitude, region.longitude).then(
             json => {
                 var address_component = json.results[0].address_components[1];
                 // alert(JSON.stringify(json));
                 console.log("ROAD NAME", address_component);
-                this.setState({place:{name:address_component.long_name},region, json});
+                this.setState({place: {name: address_component.long_name}, region, json});
             },
             error => {
                 alert('error aaya hai ' + error);
@@ -78,67 +87,78 @@ export default class App extends Component<Props> {
 
     render() {
         return (
-            <MapView style={styles.container}
-                     initialRegion={this.state.region}
-                     onRegionChange={this.onRegionChange}
-                     region={this.state.region}
-            >
-                <TouchableOpacity
-                    style={styles.input}
-                    onPress={() => this.openSearchModal()}
-                >
-                    <Text>Pick a Place</Text>
-                </TouchableOpacity>
-                {/*<Text style={styles.title}>{this.state.json}</Text>*/}
-                <View style={styles.box}>
-                    <Text /*style={styles.tit}*/>Place name</Text>
-                    <Text /*style={styles.plastic}*/>{this.state.place.name}</Text>
+            <View style={styles.container}>
+                <MapView style={styles.map}
+                         initialRegion={this.state.region}
+                         onRegionChange={this.onRegionChange}
+                         region={this.state.region}
+                />
+                <View>
+                    <TextInput style={styles.input} onChangeText={this.autocompleteText}/>
+                    {/*<Text>{JSON.stringify(this.state.predictions)}</Text>*/}
+                    <FlatList
+                        data={this.state.predictions}
+                        keyExtractor={(index) => {
+                            return index
+                        }}
+                        renderItem={({item}) => {
+                            return <PredictionItem result={item}/>
+                        }}
+                    />
                 </View>
+                <View style={styles.box}>
+                    <Text style={styles.tit}>Place name</Text>
+                    <Text style={styles.plastic}>{this.state.place.name}</Text>
+                </View>
+            </View>
 
-            </MapView>
+
         );
     }
+
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         backgroundColor: '#F5FCFF',
     },
     map: {
         width: width,
         height: height,
+        position: 'absolute',
     },
     box: {
         // width: '100%',
         height: 100,
         margin: 10,
         backgroundColor: '#FF00FF',
-        borderBottomLeftRadius:20,
-        borderBottomRightRadius:20,
-        flexDirection:'column',
-        justifyContent:'flex-start',
-        alignItems:'flex-start',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
     },
-    input:{
+    input: {
         // width: '100%',
         height: 50,
-        margin: 10,
-        marginTop:40,
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 50,
         backgroundColor: '#FF0033',
         // fontSize:15,
     },
-    tit:{
-        fontSize:14,
-        marginTop:5,
-        marginLeft:5,
+    tit: {
+        fontSize: 14,
+        marginTop: 5,
+        marginLeft: 5,
     },
-    plastic:{
-        fontSize:20, fontWeight:'bold',margin:5,
+    plastic: {
+        fontSize: 20, fontWeight: 'bold', margin: 5,
     }
 });
 
-//style={{fontSize:20,borderColor:'#fff', borderWidth:2,alignSelf:'flex-end', }}
+//style={{fontSize: 20, borderColor: '#fff', borderWidth: 2, alignSelf: 'flex-end',}}
 
 //Google Geocoding key: AIzaSyARVStcGaPDi8siWzfIep1p3Gksm5pDyXY
