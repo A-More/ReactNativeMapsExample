@@ -8,6 +8,8 @@ Use your own API Key.
 Best practices have NOT been followed.
 
 Libraries used:
-[react-native-google-places](https://github.com/tolu360/react-native-google-places) for Autocomplete,
-[react-native-maps](https://github.com/react-community/react-native-maps) for MapView
-[react-native-geocoding](https://github.com/marlove/react-native-geocoding) for Geocoding,
+<ol>
+<li>[react-native-google-places](https://github.com/tolu360/react-native-google-places) for Autocomplete,</li>
+<li>[react-native-maps](https://github.com/react-community/react-native-maps) for MapView</li>
+<li>[react-native-geocoding](https://github.com/marlove/react-native-geocoding) for Geocoding,</li>
+</ol>
