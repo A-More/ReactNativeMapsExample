@@ -9,6 +9,6 @@ Best practices have NOT been followed.
 
 Libraries used:
 
-[react-native-google-places](https://github.com/tolu360/react-native-google-places) for Autocomplete, <br>
-[react-native-maps](https://github.com/react-community/react-native-maps) for MapView<br>
-[react-native-geocoding](https://github.com/marlove/react-native-geocoding) for Geocoding.<br>
+1.  for Autocomplete, [react-native-google-places](https://github.com/tolu360/react-native-google-places) <br>
+2.  for MapView, [react-native-maps](https://github.com/react-community/react-native-maps)<br>
+3.  for Geocoding, [react-native-geocoding](https://github.com/marlove/react-native-geocoding)<br>
