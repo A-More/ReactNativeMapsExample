@@ -2,7 +2,7 @@
 The following project has been created for beginners venturing into React Native (like me).
 this project contains Google Maps API, Google Geocoding and Google Places Autocomplete example, all on single screen.
 
-Note: <br><br>
+Note:
 Currently configured only for iOS. <br>
 Use your own API Key. <br>
 Best practices have NOT been followed. <br>
