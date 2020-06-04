@@ -1,6 +1,6 @@
 # ReactNativeMapsExample
-The following project has been created for beginners venturing into React Native (like me).
-this project contains Google Maps API, Google Geocoding and Google Places Autocomplete example, all on single screen.
+The following project has been created for beginners venturing into React Native (like me).  
+###This project contains Google Maps API, Google Geocoding and Google Places Autocomplete example, all on single screen.
 
 Note:
 
